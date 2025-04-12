@@ -1,9 +1,9 @@
-<h1 align="center"> QUEEN NYX BOT </h1>
+<h1 align="center"> KINGVON-XMD BOT </h1>
 <p align="center">  
   
 ***
   
-<a href="https://git.io/typing-svg"><img src="https://readme-typing-svg.demolab.com?font=Black+Ops+One&size=50&pause=1000&color=1BAFBAFF&center=true&width=910&height=100&lines=THANKS FOR CHOOSING ;KINGVON-XMD BOT;WHATSAPP+NORMAL+BOT;CREATED+BY+KINGVON+;RELEASED+??.04.25" alt="Typing SVG" /></a>
+<a href="https://git.io/typing-svg"><img src="https://readme-typing-svg.demolab.com?font=Black+Ops+One&size=50&pause=1000&color=1BAFBAFF&center=true&width=910&height=100&lines=THANKS FOR CHOOSING ;KINGVON-XMD BOT;WHATSAPP+NORMAL+BOT;CREATED+BY+KINGVON+;RELEASED+20.04.25" alt="Typing SVG" /></a>
   </p>
 
   <p align="center">  
