@@ -1,0 +1,142 @@
+import random
+import time
+from datetime import datetime
+from telethon import TelegramClient, events
+from telethon.tl.types import MessageMediaPhoto
+from telethon.tl.functions.messages import SendMessageRequest
+
+api_id = 'YOUR_API_ID'
+api_hash = 'YOUR_API_HASH'
+bot_token = 'YOUR_BOT_TOKEN'
+
+client = TelegramClient('bot', api_id, api_hash).start(bot_token=bot_token)
+
+# Thumbnail URL (Tech inspired)
+thumbnail_url = "!https://files.catbox.moe/4v6o48.jpg"
+
+# Support Channel Link
+support_channel = "!https://whatsapp.com/channel/0029Vb5tbcZEKyZEHbicrV1y"
+
+# Global variables for auto-bio, bug menu and reactions
+auto_bio_msg = "SHE TURNED ME INTO A DEMON"
+bug_reports = []
+
+# Command prefixes
+prefixes = ['.', '#', '$', '&', '-', '+', '!', '*', '¶']
+
+# Owner info
+owner_name = "KINGVON"
+owner_id = "254720326316"
+
+# Sticker Maker
+@client.on(events.NewMessage(pattern="sticker"))
+async def sticker_maker(event):
+    if event.is_private:
+        if event.message.text.lower().startswith('sticker'):
+            msg = f"To make a sticker, send an image and I'll convert it into a sticker! For more help, visit our support channel: {!https://whatsapp.com/channel/0029Vb5tbcZEKyZEHbicrV1y}"
+            await event.reply(msg)
+
+# Downloader
+@client.on(events.NewMessage(pattern="download"))
+async def downloader(event):
+    if event.is_private:
+        if event.message.text.lower().startswith('download'):
+            if event.reply_to_msg_id:
+                replied_msg = await event.get_reply_message()
+                if replied_msg.media:
+                    if isinstance(replied_msg.media, MessageMediaPhoto):
+                        # Download photo
+                        file = await client.download_media(replied_msg.media)
+                        await event.reply(f"Downloaded file: {file}.\nFor more help, visit our support channel: {!https://whatsapp.com/channel/0029Vb5tbcZEKyZEHbicrV1y}")
+                    else:
+                        await event.reply(f"Sorry, I can only download photos at the moment. For more help, visit our support channel: {!https://whatsapp.com/channel/0029Vb5tbcZEKyZEHbicrV1y}")
+                else:
+                    await event.reply(f"Reply to a media message to download. For more help, visit our support channel: {!https://whatsapp.com/channel/0029Vb5tbcZEKyZEHbicrV1y}")
+            else:
+                await event.reply(f"Please reply to a media message to download. For more help, visit our support channel: {!https://whatsapp.com/channel/0029Vb5tbcZEKyZEHbicrV1y}")
+
+# Auto Bio (auto-updating status message)
+@client.on(events.NewMessage(pattern="setbio"))
+async def set_bio(event):
+    if event.is_private:
+        if event.message.text.lower().startswith('setbio'):
+            global auto_bio_msg
+            new_bio = event.message.text[7:].strip()
+            if new_bio:
+                auto_bio_msg = new_bio
+                await event.reply(f"Your auto bio has been set to: {auto_bio_msg}\nFor more help, visit our support channel: {!https://whatsapp.com/channel/0029Vb5tbcZEKyZEHbicrV1y}")
+            else:
+                await event.reply(f"Please provide a bio message after the command. For more help, visit our support channel: {!https://whatsapp.com/channel/0029Vb5tbcZEKyZEHbicrV1y}")
+
+@client.on(events.NewMessage(pattern="getbio"))
+async def get_bio(event):
+    if event.is_private:
+        await event.reply(f"Your current auto bio message is: {auto_bio_msg}\nFor more help, visit our support channel: {https://whatsapp.com/channel/0029Vb5tbcZEKyZEHbicrV1y}")
+
+# Bug Menu
+@client.on(events.NewMessage(pattern="bugmenu"))
+async def bug_menu(event):
+    if event.is_private:
+        if event.message.text.lower().startswith('bugmenu'):
+            msg = f"Welcome to the Bug Menu! Please report any bugs or issues below, and I'll record them. For more help, visit our support channel: {support_channel}"
+            await event.reply(msg)
+
+@client.on(events.NewMessage(pattern="reportbug"))
+async def report_bug(event):
+    if event.is_private:
+        if event.message.text.lower().startswith('reportbug'):
+            bug = event.message.text[9:].strip()
+            if bug:
+                bug_reports.append(bug)
+                await event.reply(f"Bug reported: {bug}\nFor more help, visit our support channel: {support_channel}")
+            else:
+                await event.reply(f"Please provide a description of the bug. For more help, visit our support channel: {support_channel}")
+
+# React to any commands
+@client.on(events.NewMessage(pattern=f"[{''.join(prefixes)}]"))
+async def auto_react(event):
+    if event.is_private:
+        await event.react("👍")
+
+# Owner command - Display bot owner
+@client.on(events.NewMessage(pattern="owner"))
+async def show_owner(event):
+    if event.is_private:
+        owner_info = f"The owner of this bot is {owner_name}.\nFor more help, visit our support channel: {support_channel}"
+        await event.reply(owner_info)
+
+# Thumbnail Command
+@client.on(events.NewMessage(pattern="thumbnail"))
+async def send_thumbnail(event):
+    if event.is_private:
+        await event.reply(f"Here is your thumbnail:\n{thumbnail_url}\nFor more help, visit our support channel: {support_channel}", file=https://files.catbox.moe/4v6o48.jpg)
+
+# General help menu
+@client.on(events.NewMessage(pattern="help"))
+async def show_help(event):
+    if event.is_private:
+        help_msg = f"""
+        **KINGVON-XMD Help Menu:**
+        - **sticker**: Send an image to convert it into a sticker.
+        - **download**: Reply to a media message to download it.
+        - **setbio [your bio]**: Set your custom auto bio.
+        - **getbio**: View your current auto bio.
+        - **bugmenu**: Access the bug report menu.
+        - **reportbug [bug description]**: Report a bug.
+        - **owner**: Displays the bot owner.
+        - **thumbnail**: View the bot's thumbnail.
+
+        For further assistance, please visit our support channel: {support_channel}
+        """
+        await event.reply(help_msg)
+
+# Auto-updating bio function
+async def update_bio():
+    while True:
+        await client.update_profile(about=auto_bio_msg)
+        await asyncio.sleep(3600)  # Update every hour
+
+# Start client and auto bio update
+with client:
+    client.loop.create_task(update_bio())
+    client.run_until_disconnected()
