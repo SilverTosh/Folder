@@ -8,7 +8,7 @@
 
   <p align="center">  
   <a href="https://whatsapp.com/channel/0029VapyPnMKAwEk3YuHAb3s">
-    <img alt="wasi" height="300" src="!https://files.catbox.moe/4v6o48.jpg">
+    <img alt="wasi" height="300" src="!https://files.catbox.moe/fc66mw.jpg">
     <h1 align="center">KINGVON-BOT</h1>
   </a>
 </p>
